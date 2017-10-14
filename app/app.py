@@ -1,5 +1,6 @@
 import requests
 import json
+import datetime
 from flask import Flask
 from flask.ext.cache import Cache
 
@@ -22,7 +23,7 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 def word_of_the_day():
 	#http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
 	params={
-		'date' : '2017-10-15',
+		'date' : datetime.datetime.today().strftime('%Y-%m-%d'),
 		'api_key' : API_KEY
 	}
 	try:
