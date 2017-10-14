@@ -1,18 +1,24 @@
-from flask import Flask
 import requests
 import json
+from flask import Flask
+from flask.ext.cache import Cache
 
 app = Flask(__name__)
+
 @app.route('/')
 def index():
 	return "Yo, it's working!"
+
 if __name__ == "__main__":
 	app.run()
 
 WORDNIK_URL='http://api.wordnik.com:80/v4/words.json/'
 API_KEY = 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
 
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+
 @app.route('/word_of_the_day/', methods=['GET'])
+@cache.memoize(timeout=3600)
 def word_of_the_day():
 	#http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
 	params={
@@ -25,6 +31,7 @@ def word_of_the_day():
 		if response.status_code == 200:
 			response = response.json()
 			title = response.get('word')
+			title = title.title()
 			print(title)
 			if not title:
 				return json.dumps({'msg': 'Failed to get a word'})
@@ -45,8 +52,8 @@ def word_of_the_day():
 				'data' : {
 					'type':'carousel',
 					 'templates' : [{
-						'title' : title,
-						'subtitle': meaning,
+						'title' : 'Word Of the day : {}'.format(title),
+						'subtitle': 'Definition\n{}'.format(meaning),
 						'default_action' : {
 							'type' : 'web_url',
 							'url' : url
