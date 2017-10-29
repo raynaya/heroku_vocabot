@@ -167,6 +167,10 @@ def random_word():
                 ]
             }
         }
+        usage_templates = get_usage(word)
+        if usage_templates:
+            payload['data']['templates'].extend(
+                usage_templates['templates'])
         return json.dumps(payload)
 
     except Exception:
@@ -210,7 +214,7 @@ def word_of_the_day():
                     'type': 'carousel',
                     'templates': [{
                             'title': 'Word Of the day : {}'.format(title),
-                        'subtitle': 'Definition\n{}'.format(meaning),
+                        'subtitle': 'Definition{}'.format(meaning),
                                     'default_action': {
                                 'type': 'web_url',
                                 'url': url
