@@ -151,8 +151,8 @@ def random_word():
             'data': {
                 'type': 'carousel',
                 'templates': [{
-                        'title': '{}'.format(word),
-                        'subtitle':'Definition\n{}'.format(meaning),
+                        'title': '{}'.format(word.title()),
+                        'subtitle':'Definition: {}'.format(meaning),
                     'default_action': {
                             'type': 'web_url',
                             'url': url
