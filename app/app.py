@@ -80,8 +80,8 @@ def get_usage(word):
             payload = {
 
                 'templates': [{
-                    'title': 'Top Example',
-                    'subtitle': usage,
+                    'text': 'Example\n{}'.format(usage),
+                    # 'subtitle': usage,
                     'default_action': {
                         'type': 'web_url',
                         'url': url
@@ -213,8 +213,8 @@ def word_of_the_day():
                 'data': {
                     'type': 'carousel',
                     'templates': [{
-                            'title': 'Word Of the day : {}'.format(title),
-                        'subtitle': 'Definition{}'.format(meaning),
+                        'text': 'Word Of the day : {}\nDefinition: {}'.format(title, meaning),
+                        # 'subtitle': 'Definition: {}'.format(meaning),
                                     'default_action': {
                                 'type': 'web_url',
                                 'url': url
