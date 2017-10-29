@@ -152,17 +152,17 @@ def random_word():
                 'type': 'carousel',
                 'templates': [{
                         'title': '{}'.format(word.title()),
-                        'subtitle':'Definition: {}'.format(meaning),
+                        'subtitle': 'Definition: {}'.format(meaning),
                     'default_action': {
                             'type': 'web_url',
                             'url': url
-                        },
+                            },
                     'buttons': [{
                         "title": "See More",
                         "type": "postback",
                         "payload": "flow_B9BFF21F148E48B19808E517CE1FFBE2"
                     }
-                    ]
+                        ]
                 }
                 ]
             }
@@ -218,7 +218,13 @@ def word_of_the_day():
                                     'default_action': {
                                 'type': 'web_url',
                                 'url': url
+                            },
+                        'buttons': [{
+                            "title": "Show a Random Word",
+                            "type": "postback",
+                            "payload": "flow_B9BFF21F148E48B19808E517CE1FFBE2"
                         }
+                            ]
                     }
                     ]
                 }
