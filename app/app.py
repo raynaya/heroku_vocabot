@@ -80,7 +80,8 @@ def get_usage(word):
             payload = {
 
                 'templates': [{
-                    'title': 'Top Example\n{}'.format( usage),
+                    'title': 'Top Example',
+                    'subtitle':usage,
                     'default_action': {
                         'type': 'web_url',
                         'url': url
