@@ -53,15 +53,15 @@ def get_word_list(url, params, headers):
 @cache.memoize(timeout=604800)
 @app.route('/get_usage/<word>', methods=['GET'])
 def get_usage(word):
-
+    word = word.lower()
     params = {
         'useCanonical': False,
         'api_key': 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
     }
     try:
-        print(WORDNIK_URL + 'v4/word.json/{}/topExample'.format(word))
+        # print(WORDNIK_URL + 'v4/word.json/{}/topExample'.format(word))
         response = requests.get(
-            'http://api.wordnik.com/v4/word.json/{}/topExample'.format(word), params=params)
+            WORDNIK_URL + 'word.json/{}/topExample'.format(word), params=params)
         print(response.text)
         if response.status_code == 200:
             response = response.json()
@@ -78,32 +78,30 @@ def get_usage(word):
             url = 'https://www.wordnik.com/words/{}'.format(word)
 
             payload = {
-                'data': {
-                    'type': 'carousel',
-                    'templates': [{
-                            'title': 'Word : {}\n{}'.format(title, usage),
 
-                        'default_action': {
-                                'type': 'web_url',
-                                'url': url
-                                },
-                        'buttons': [
-                                {
-                                    'title': 'Related Words',
-                                    'type': 'postback',
-                                    'payload': ''
-                                }
-                            ]
-                    }
+                'templates': [{
+                    'title': 'Top Example \n{}'.format( usage),
+                    'default_action': {
+                        'type': 'web_url',
+                        'url': url
+                    },
+                    'buttons': [
+                        {
+                            'title': 'Related Words',
+                            'type': 'web_url',
+                            'payload': url
+                        }
                     ]
                 }
+                ]
             }
-            return json.dumps(payload)
+            return payload
         else:
-            return json.dumps({'msg': 'Failed to get get_word_examples'})
+            return None
 
-    except Exception:
-        return json.dumps({'msg': 'Failed to get examples'})
+    except Exception as e:
+        print(e)
+        return None
 
 
 @app.route('/random_word/', methods=['GET'])
@@ -156,7 +154,7 @@ def random_word():
                     'default_action': {
                             'type': 'web_url',
                             'url': url
-                    }
+                            }
                 }
                 ]
             }
@@ -208,11 +206,15 @@ def word_of_the_day():
                                     'default_action': {
                                 'type': 'web_url',
                                 'url': url
-                                }
+                            }
                     }
                     ]
                 }
             }
+            usage_templates = get_usage(title)
+            if usage_templates:
+                payload['data']['templates'].extend(usage_templates['templates'])
+
             return json.dumps(payload)
         else:
             return json.dumps({'msg': 'Failed to get a word'})
