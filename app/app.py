@@ -81,7 +81,7 @@ def get_usage(word):
 
                 'templates': [{
                     'title': 'Top Example',
-                    'subtitle':usage,
+                    'subtitle': usage,
                     'default_action': {
                         'type': 'web_url',
                         'url': url
@@ -155,7 +155,13 @@ def random_word():
                     'default_action': {
                             'type': 'web_url',
                             'url': url
-                            }
+                        },
+                    'buttons': [{
+                        "title": "See More",
+                        "type": "postback",
+                        "payload": "flow_B9BFF21F148E48B19808E517CE1FFBE2"
+                    }
+                    ]
                 }
                 ]
             }
@@ -207,14 +213,15 @@ def word_of_the_day():
                                     'default_action': {
                                 'type': 'web_url',
                                 'url': url
-                            }
+                        }
                     }
                     ]
                 }
             }
             usage_templates = get_usage(title)
             if usage_templates:
-                payload['data']['templates'].extend(usage_templates['templates'])
+                payload['data']['templates'].extend(
+                    usage_templates['templates'])
 
             return json.dumps(payload)
         else:
