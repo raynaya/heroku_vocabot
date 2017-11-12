@@ -210,34 +210,19 @@ def word_of_the_day():
             partOfSpeech = definitions[0].get('partOfSpeech', '')
             url = 'https://www.wordnik.com/word-of-the-day'
 
-            # payload = {
-            #     'data': {
-            #         'type': 'carousel',
-            #         'templates': [{
-            #                 'title': 'Word Of the day : {}'.format(title),
-            #             'subtitle': 'Definition: {}'.format(meaning),
-            #                         'default_action': {
-            #                     'type': 'web_url',
-            #                     'url': url
-            #                 },
-            #             'buttons': [{
-            #                 "title": "Random Word",
-            #                 "type": "postback",
-            #                 "payload": "flow_B9BFF21F148E48B19808E517CE1FFBE2"
-            #             }
-            #                 ]
-            #         }
-            #         ]
-            #     }
-            # }
+            examples = response.get('examples',[])
+            usage = ''
+            for example in examples:
+                usage = '{}\n{}'.format(usage, example['text'])
+           
 
             payload = {
                 'data': {
                     'type': 'text',
-                    'text': 'Word Of the day : {}\nDefinition {}\npartOfSpeech: {}\nnote: {}'.format(title, meaning, partOfSpeech, note)
+                    'text': 'Word Of the day : {}\n\nDefinition: {}\n\npartOfSpeech: {}\n\nnote: {}\n\n How to use \n{}'.format(title, meaning, partOfSpeech, note, usage)
                 }
             }
-            # usage_templates = get_usage(title)
+
             # if usage_templates:
             #     payload['data']['templates'].extend(
             #         usage_templates['templates'])
