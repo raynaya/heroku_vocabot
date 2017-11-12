@@ -37,7 +37,7 @@ def get_auth_token():
         response = response.json()
         return response.get('token')
     # else:
-    # 	return json.dumps({'msg': 'Failed to get auth token'})
+    #   return json.dumps({'msg': 'Failed to get auth token'})
 
 
 @cache.memoize(timeout=86400)
@@ -143,7 +143,7 @@ def random_word():
 
         response = response.json()
         meaning = response[0].get('text')
-        pos = response[0].get('partOfSpeech')
+        partOfSpeech = response[0].get('partOfSpeech')
 
         url = 'https://www.wordnik.com/words/{}'.format(word)
 
@@ -156,13 +156,13 @@ def random_word():
                     'default_action': {
                             'type': 'web_url',
                             'url': url
-                            },
+                        },
                     'buttons': [{
                         "title": "See More",
                         "type": "postback",
                         "payload": "flow_B9BFF21F148E48B19808E517CE1FFBE2"
                     }
-                        ]
+                    ]
                 }
                 ]
             }
@@ -207,32 +207,40 @@ def word_of_the_day():
             print(meaning)
 
             note = response.get('note', '')
+            partOfSpeech = definitions[0].get('partOfSpeech', '')
             url = 'https://www.wordnik.com/word-of-the-day'
+
+            # payload = {
+            #     'data': {
+            #         'type': 'carousel',
+            #         'templates': [{
+            #                 'title': 'Word Of the day : {}'.format(title),
+            #             'subtitle': 'Definition: {}'.format(meaning),
+            #                         'default_action': {
+            #                     'type': 'web_url',
+            #                     'url': url
+            #                 },
+            #             'buttons': [{
+            #                 "title": "Random Word",
+            #                 "type": "postback",
+            #                 "payload": "flow_B9BFF21F148E48B19808E517CE1FFBE2"
+            #             }
+            #                 ]
+            #         }
+            #         ]
+            #     }
+            # }
 
             payload = {
                 'data': {
-                    'type': 'carousel',
-                    'templates': [{
-                            'title': 'Word Of the day : {}'.format(title),
-                        'subtitle': 'Definition: {}'.format(meaning),
-                                    'default_action': {
-                                'type': 'web_url',
-                                'url': url
-                            },
-                        'buttons': [{
-                            "title": "Show a Random Word",
-                            "type": "postback",
-                            "payload": "flow_B9BFF21F148E48B19808E517CE1FFBE2"
-                        }
-                            ]
-                    }
-                    ]
+                    'type': 'text',
+                    'text': 'Word Of the day : {}\nDefinition {}\npartOfSpeech: {}\nnote: {}'.format(title, meaning, partOfSpeech, note)
                 }
             }
-            usage_templates = get_usage(title)
-            if usage_templates:
-                payload['data']['templates'].extend(
-                    usage_templates['templates'])
+            # usage_templates = get_usage(title)
+            # if usage_templates:
+            #     payload['data']['templates'].extend(
+            #         usage_templates['templates'])
 
             return json.dumps(payload)
         else:
