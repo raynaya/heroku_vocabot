@@ -218,11 +218,16 @@ def word_of_the_day():
 
             payload = {
                 'data': {
-                    'type': 'text',
-                    'text': 'Word Of the day : {}\n\nDefinition: {}\n\npartOfSpeech: {}\n\nnote: {}\n\nHow to use \n{}'.format(title, meaning, partOfSpeech, note, usage)
+                    'type': 'msg_options',
+                    'text': 'Word Of the day : {}\n\nDefinition: {}\n\npartOfSpeech: {}\n\nnote: {}\n\nHow to use \n{}'.format(title, meaning, partOfSpeech, note, usage),
+                    'options' : [   
+                    {
+                        "text": "See More",
+                        "postback": "flow_B9BFF21F148E48B19808E517CE1FFBE2"
+                    }
+                ]
                 }
             }
-
             # if usage_templates:
             #     payload['data']['templates'].extend(
             #         usage_templates['templates'])
