@@ -213,13 +213,13 @@ def word_of_the_day():
             examples = response.get('examples',[])
             usage = ''
             for example in examples:
-                usage = '{}\n{}'.format(usage, example['text'])
+                usage = '{}\n - {}'.format(usage, example['text'])
            
 
             payload = {
                 'data': {
                     'type': 'text',
-                    'text': 'Word Of the day : {}\n\nDefinition: {}\n\npartOfSpeech: {}\n\nnote: {}\n\n How to use \n{}'.format(title, meaning, partOfSpeech, note, usage)
+                    'text': 'Word Of the day : {}\n\nDefinition: {}\n\npartOfSpeech: {}\n\nnote: {}\n\nHow to use \n{}'.format(title, meaning, partOfSpeech, note, usage)
                 }
             }
 
