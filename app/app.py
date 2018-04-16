@@ -237,3 +237,23 @@ def word_of_the_day():
             return json.dumps({'msg': 'Failed to get a word'})
     except Exception:
         return json.dumps({'msg': 'Failed to get a word'}), 500
+
+@app.route('/zoom_meeting', methods=['GET'])
+def zoom_meeting():
+    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzTzgwTGRWSFNYYXV3WUNVZG9UZlZBIiwiZXhwIjoxNTIzOTUxMTE5fQ.QXE0HuaffaMqYufWEe8aQCSrHHp2kjHnCViOr9dtAxs'
+    }
+
+    try:
+        response = requests.get('https://api.zoom.us/v2/meetings/4564560909', headers=headers)
+        print(response.text)
+        if response.status_code == 200:
+            response = response.json()
+            join_url = response["join_url"]
+            return json.dumps({"data": {"type": "carousel", "templates": [{"title": "Genius Bar", "subtitle": "Connect instantly to Genius Bar by clicking the button below", "buttons": [ {"type": "web_url","payload": join_url}]}]}})
+        else:
+            return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
+    except Exception:
+        return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
