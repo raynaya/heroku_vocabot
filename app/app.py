@@ -252,7 +252,7 @@ def zoom_meeting():
         if response.status_code == 200:
             response = response.json()
             join_url = response["join_url"]
-            return json.dumps({"data": {"type": "carousel", "templates": [{"title": "Genius Bar", "subtitle": "Connect instantly to Genius Bar by clicking the button below", "buttons": [ {"type": "web_url","payload": join_url}]}]}})
+            return json.dumps({"data": {"type": "carousel", "templates": [{"title": "Genius Bar", "subtitle": "Connect instantly to Genius Bar by clicking the button below", "buttons": [ {"title": "Connect", "type": "web_url","payload": join_url}]}]}})
         else:
             return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
     except Exception:
