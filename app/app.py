@@ -243,7 +243,7 @@ def zoom_meeting():
     # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzTzgwTGRWSFNYYXV3WUNVZG9UZlZBIiwiZXhwIjoxNTIzOTUxMTE5fQ.QXE0HuaffaMqYufWEe8aQCSrHHp2kjHnCViOr9dtAxs'
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzTzgwTGRWSFNYYXV3WUNVZG9UZlZBIiwiZXhwIjoxNTI2NzAzNzA3fQ.DHBUT7TLooibGKPq421-E4WKqUqb1YTf3iNnN1KoAkY'
     }
 
     try:
