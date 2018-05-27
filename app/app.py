@@ -56,7 +56,7 @@ def get_usage(word):
     word = word.lower()
     params = {
         'useCanonical': False,
-        'api_key': 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
+        'api_key': '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
     }
     try:
         # print(WORDNIK_URL + 'v4/word.json/{}/topExample'.format(word))
