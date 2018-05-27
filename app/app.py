@@ -237,3 +237,23 @@ def word_of_the_day():
             return json.dumps({'msg': 'Failed to get a word'})
     except Exception:
         return json.dumps({'msg': 'Failed to get a word'}), 500
+
+@app.route('/zoom_meeting', methods=['GET'])
+def zoom_meeting():
+    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzTzgwTGRWSFNYYXV3WUNVZG9UZlZBIiwiZXhwIjoxNTI2NzAzNzA3fQ.DHBUT7TLooibGKPq421-E4WKqUqb1YTf3iNnN1KoAkY'
+    }
+
+    try:
+        response = requests.get('https://api.zoom.us/v2/meetings/4564560909', headers=headers)
+        print(response.text)
+        if response.status_code == 200:
+            response = response.json()
+            join_url = response["join_url"]
+            return json.dumps({"data": {"type": "carousel", "templates": [{"title": "Genius Bar", "image_url": "https://gm1.ggpht.com/jrqhyBQvj4rRLq06JfLxPtiEiBJ8lySzpzA-f01rUKXhbKmn6aYnDGwIZDUdcshZKSrXN_Jf_QEh7XrZgD1WhkkCgVXy4zEcok9Y4KAlIbgQasUGU0cyhUPHas0LrPyf0K4tVz9VQvOQhCwSXmLubRMyck_W0BigmCkkutR34fNO7Q0WBMA2hBVY7sTL4QLf84Z8httsXI3GNDx9RnnJ56fYAGSWpFjNhDhIt9SY-QcuA0HcyAsmLTMhGIhsVliXmurBLT2Xf3vZqrmeN7ozSMfbK8OxwseczKjuwvT2FCE1NsLw7ShKai6jCPNCkUMBa_M3vrFVVBDK0us9cVxC34HbTyDO_BH08hng2I_AjcTzDYZMGttWV7zF7IXEncwJQO9dOf5xLqwmFQNqp_b4KCx5irQCY9KyDiPV2BYbaFDQ49RYA2NtQhmfgxsk7KoA2gKjSknH452VUko9tp2sBdm5m--QOobaORD88Kx_htgezOMJQX3GFc5zwDua-rQ2eQlvCNvhCZnqQ0vYyRscy0MUeQKdWlRkfMiGW9JXlHSMS7Br_hD4Wa7XZ1pz8qEDwkUe1eLzjHvOoQPYft9xa8IkhxMQrhmV3EVf7AmwDs2-yT_rzIXIYsLjyWeam7kSCPy0_sU4bhzy4tjxFjsIOmPLNQ45p1Dwyn4-IeoWJZqNvbmFH_eDHdBG1AXqHw=w580-h228-l75-ft", "subtitle": "Connect instantly to Genius Bar by clicking the button below", "buttons": [ {"title": "Connect", "type": "web_url","payload": join_url}]}]}})
+        else:
+            return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
+    except Exception:
+        return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
