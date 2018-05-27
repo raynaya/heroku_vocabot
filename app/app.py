@@ -183,7 +183,7 @@ def word_of_the_day():
     # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
     params = {
         'date': datetime.datetime.today().strftime('%Y-%m-%d'),
-        'api_key': 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
+        'api_key': '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
     }
     try:
         response = requests.get(
