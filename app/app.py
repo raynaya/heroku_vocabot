@@ -133,7 +133,7 @@ def random_word():
             'sourceDictionaries': 'wiktionary',
             'useCanonical': False,
             'includeTags': False,
-            'api_key': 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
+            'api_key': '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
         }
 
         response = requests.get(
@@ -180,7 +180,7 @@ def random_word():
 @app.route('/word_of_the_day/', methods=['GET'])
 @cache.memoize(timeout=86400)
 def word_of_the_day():
-    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
+    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=6b7418187bd740d53c01975443c56826e52ec538526c7875f
     params = {
         'date': datetime.datetime.today().strftime('%Y-%m-%d'),
         'api_key': '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
@@ -240,7 +240,7 @@ def word_of_the_day():
 
 @app.route('/zoom_meeting', methods=['GET'])
 def zoom_meeting():
-    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
+    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=6b7418187bd740d53c01975443c56826e52ec538526c7875f
     headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzTzgwTGRWSFNYYXV3WUNVZG9UZlZBIiwiZXhwIjoxNTI2NzAzNzA3fQ.DHBUT7TLooibGKPq421-E4WKqUqb1YTf3iNnN1KoAkY'
