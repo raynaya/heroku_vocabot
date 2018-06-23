@@ -7,9 +7,16 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-121237297-1');
-  gtag('set', {'user_id': '1231213212312'});
-  gtag('set', {'1231213212312': 'USER_ID'}); // Set the user ID using signed-in user_id.
+  gtag('config', 'UA-121237297-1', { 'app_name': 'Engati' })
+  gtag('event', 'screen_view', { 'screen_name': 'Home'});
+
+  gtag('set', {'user_id': '12312132123125'});
+  // gtag('set', {'1231213212312': 'USER_ID'}); // Set the user ID using signed-in user_id.
+
+  function log_event(event_name){
+  	console.log('Event:'+event_name)
+  	gtag('event', event_name);
+  }
 </script>
   <title>Test Widget</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +24,7 @@
 </head>
 <body>
 Hello Coviam
+<a href="wordbot.html" onClick="log_event('NAVIGATED_TO_CHANNEL')">Next Page</a>
 </body>
 <script>EngtChat.init({"bot_key": "15dc2d1375d948a0", "e":"p", "bot_name":"TestBot","welcome_msg":true, "branding_key":"default" });</script>
 </html>
