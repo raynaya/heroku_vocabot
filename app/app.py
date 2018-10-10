@@ -1,3 +1,4 @@
+# !flask/bin/python
 import requests
 import json
 import datetime
@@ -259,8 +260,13 @@ def zoom_meeting():
         return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
 
 
-@app.route('/postresolution/<language>/text', methods=['GET'])
+@app.route('/message/<workflow>/<language>/', methods=['GET'])
 @cache.memoize(timeout=86400)
-def get_post_resolution_mesasge(language):
-    messages = {"english":"Thank you for your patience and support.","hindi":"आपके धैर्य और सहयोग के लिए शुक्रिया।","arabic":"نشكرك على صبرك و دعمك."}
-    return json.dumps({"data": {"type": "text", "text": messages.get(language,"Thank you for your patience and support.")}}), 200
+def get_post_resolution_mesasge(workflow,language):
+    messages = {"POST_RESOLUTION":{"english":"Sorry, I did not understand that.","hindi":"आपके धैर्य और सहयोग के लिए शुक्रिया।","arabic":"نشكرك على صبرك و دعمك."},"DEFAULT_FALLBACK":{"english":"Thank you for your patience and support.","hindi":"क्षमा करें, मुझे यह समझ में नहीं आया।","arabic":"اسف انا لم أفهم ذلك."}}
+    fallback = {"POST_RESOLUTION":"Thank you for your patience and support.","DEFAULT_FALLBACK":"Sorry, I did not understand that."}
+    if messages.get(workflow):
+        message = messages.get(workflow).get(language,fallback.get(workflow))
+    else:
+        message = "Something went wrong. Please try again or get in touch with the administrator" 
+    return json.dumps({"data": {"type": "text", "text": message}},ensure_ascii=False), 200
