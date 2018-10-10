@@ -257,3 +257,10 @@ def zoom_meeting():
             return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
     except Exception:
         return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
+
+
+@app.route('/postresolution/<language>/text', methods=['GET'])
+@cache.memoize(timeout=86400)
+def get_post_resolution_mesasge(language):
+    messages = {"english":"Thank you for your patience and support.","hindi":"आपके धैर्य और सहयोग के लिए शुक्रिया।","arabic":"نشكرك على صبرك و دعمك."}
+    return json.dumps({"data": {"type": "text", "text": messages.get(language,"Thank you for your patience and support.")}}), 200
