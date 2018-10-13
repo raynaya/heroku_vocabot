@@ -262,10 +262,10 @@ def zoom_meeting():
 @app.route('/message/<workflow>/<language>/', methods=['GET'])
 @cache.memoize(timeout=86400)
 def get_localize_mesasge(workflow,language):
-    messages = {"POST_RESOLUTION":{"english":"Sorry, I did not understand that.","hindi":"आपके धैर्य और सहयोग के लिए शुक्रिया।","arabic":"نشكرك على صبرك و دعمك."},"DEFAULT_FALLBACK":{"english":"Thank you for your patience and support.","hindi":"क्षमा करें, मुझे यह समझ में नहीं आया।","arabic":"اسف انا لم أفهم ذلك."}}
-    fallback = {"POST_RESOLUTION":"Thank you for your patience and support.","DEFAULT_FALLBACK":"Sorry, I did not understand that."}
+    messages = {"WASL_POST_RESOLUTION":{"english":"Thank you for connecting with wasl Properties.\nDo you have any further queries?", "arabic":"شكرًا للتوصل مع الوصل العقاريه .\nهل من شئ اخر نستطيع مساعدتكم به ."}, "WASL_DEFAULT_FALLBACK":{"english":"We thank you for your patience. An agent will be with you shortly.", "arabic":"شكرًا بتصالكم بالوصل العقاريه سنقوم بالرد عليكم قريبا"}, "WASL_HELLO":{"english":"Hello", "arabic":"مرحبا"}}
+    fallback = {"WASL_POST_RESOLUTION":"We thank you for your patience. An agent will be with you shortly.", "WASL_DEFAULT_FALLBACK":"Thank you for connecting with wasl Properties.\nDo you have any further queries?", "WASL_HELLO": "Hello"}
     if messages.get(workflow):
-        message = messages.get(workflow).get(language,fallback.get(workflow))
+        message = messages.get(workflow).get(language, fallback.get(workflow))
     else:
         message = "Something went wrong. Please try again or get in touch with the administrator" 
     return json.dumps({"data": {"type": "text", "text": message}},ensure_ascii=False), 200
