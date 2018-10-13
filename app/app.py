@@ -273,12 +273,12 @@ def get_localize_mesasge(workflow,language):
 @app.route('/waslresolution/<language>/', methods=['GET'])
 @cache.memoize(timeout=86400)
 def get_resolution_mesasge(language):
-	WASL_POST_RESOLUTION_JSON_ENGLISH = {"data":{"type":"msg_options","text":"Thank you for connecting with wasl Properties.\nDo you have any further queries?","options":[{"text":"Yes","postback":"flow_4C050C077F1249C38CA71343DECA99C6||data_user_language=english"},{"text":"No thank you.","postback":"flow_554B615A8D8D4271A57E76F3F5CBEBD2||data_user_language=english"}]}}
+    WASL_POST_RESOLUTION_JSON_ENGLISH = {"data":{"type":"msg_options","text":"Thank you for connecting with wasl Properties.\nDo you have any further queries?","options":[{"text":"Yes","postback":"flow_4C050C077F1249C38CA71343DECA99C6||data_user_language=english"},{"text":"No thank you.","postback":"flow_554B615A8D8D4271A57E76F3F5CBEBD2||data_user_language=english"}]}}
 
-	WASL_POST_RESOLUTION_JSON_ARABIC = {"data":{"type":"msg_options","text":"شكرًا للتوصل مع الوصل العقاريه.\nهل من شئ اخر نستطيع مساعدتكم به .","options":[{"text":"نعم","postback":"flow_5B83AB817E544CC6833B0CA89E4E74D1||data_user_language=arabic"},{"text":"لا شكرًا","postback":"flow_F54028C8555E4905B183D177A7403D41||data_user_language=arabic"}]}}
+    WASL_POST_RESOLUTION_JSON_ARABIC = {"data":{"type":"msg_options","text":"شكرًا للتوصل مع الوصل العقاريه.\nهل من شئ اخر نستطيع مساعدتكم به .","options":[{"text":"نعم","postback":"flow_5B83AB817E544CC6833B0CA89E4E74D1||data_user_language=arabic"},{"text":"لا شكرًا","postback":"flow_F54028C8555E4905B183D177A7403D41||data_user_language=arabic"}]}}
 
     if language == 'arabic':
-        content = WASL_POST_RESOLUTION_JSON_ARABIC
+         content = WASL_POST_RESOLUTION_JSON_ARABIC
     else:
         content = WASL_POST_RESOLUTION_JSON_ENGLISH
     return json.dumps(content, ensure_ascii=False), 200
