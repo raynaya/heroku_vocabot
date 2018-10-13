@@ -262,10 +262,23 @@ def zoom_meeting():
 @app.route('/message/<workflow>/<language>/', methods=['GET'])
 @cache.memoize(timeout=86400)
 def get_localize_mesasge(workflow,language):
-    messages = {"POST_RESOLUTION":{"english":"Sorry, I did not understand that.","hindi":"आपके धैर्य और सहयोग के लिए शुक्रिया।","arabic":"نشكرك على صبرك و دعمك."},"DEFAULT_FALLBACK":{"english":"Thank you for your patience and support.","hindi":"क्षमा करें, मुझे यह समझ में नहीं आया।","arabic":"اسف انا لم أفهم ذلك."}}
-    fallback = {"POST_RESOLUTION":"Thank you for your patience and support.","DEFAULT_FALLBACK":"Sorry, I did not understand that."}
+    messages = {"WASL_POST_RESOLUTION":{"english":"Thank you for connecting with wasl Properties.\nDo you have any further queries?", "arabic":"شكرًا للتوصل مع الوصل العقاريه .\nهل من شئ اخر نستطيع مساعدتكم به ."}, "WASL_DEFAULT_FALLBACK":{"english":"We thank you for your patience. An agent will be with you shortly.", "arabic":"شكرًا بتصالكم بالوصل العقاريه سنقوم بالرد عليكم قريبا"}, "WASL_HELLO":{"english":"Hello", "arabic":"مرحبا"}}
+    fallback = {"WASL_POST_RESOLUTION":"We thank you for your patience. An agent will be with you shortly.", "WASL_DEFAULT_FALLBACK":"Thank you for connecting with wasl Properties.\nDo you have any further queries?", "WASL_HELLO": "Hello"}
     if messages.get(workflow):
-        message = messages.get(workflow).get(language,fallback.get(workflow))
+        message = messages.get(workflow).get(language, fallback.get(workflow))
     else:
         message = "Something went wrong. Please try again or get in touch with the administrator" 
     return json.dumps({"data": {"type": "text", "text": message}},ensure_ascii=False), 200
+
+@app.route('/waslresolution/<language>/', methods=['GET'])
+@cache.memoize(timeout=86400)
+def get_resolution_mesasge(language):
+	WASL_POST_RESOLUTION_JSON_ENGLISH = {"data":{"type":"msg_options","text":"Thank you for connecting with wasl Properties.\nDo you have any further queries?","options":[{"text":"Yes","postback":"flow_4C050C077F1249C38CA71343DECA99C6||data_user_language=english"},{"text":"No thank you.","postback":"flow_554B615A8D8D4271A57E76F3F5CBEBD2||data_user_language=english"}]}}
+
+	WASL_POST_RESOLUTION_JSON_ARABIC = {"data":{"type":"msg_options","text":"شكرًا للتوصل مع الوصل العقاريه.\nهل من شئ اخر نستطيع مساعدتكم به .","options":[{"text":"نعم","postback":"flow_5B83AB817E544CC6833B0CA89E4E74D1||data_user_language=arabic"},{"text":"لا شكرًا","postback":"flow_F54028C8555E4905B183D177A7403D41||data_user_language=arabic"}]}}
+
+    if language == 'arabic':
+        content = WASL_POST_RESOLUTION_JSON_ARABIC
+    else:
+        content = WASL_POST_RESOLUTION_JSON_ENGLISH
+    return json.dumps(content, ensure_ascii=False), 200
