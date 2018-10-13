@@ -56,7 +56,7 @@ def get_usage(word):
     word = word.lower()
     params = {
         'useCanonical': False,
-        'api_key': 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
+        'api_key': '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
     }
     try:
         # print(WORDNIK_URL + 'v4/word.json/{}/topExample'.format(word))
@@ -133,7 +133,7 @@ def random_word():
             'sourceDictionaries': 'wiktionary',
             'useCanonical': False,
             'includeTags': False,
-            'api_key': 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
+            'api_key': '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
         }
 
         response = requests.get(
@@ -180,10 +180,10 @@ def random_word():
 @app.route('/word_of_the_day/', methods=['GET'])
 @cache.memoize(timeout=86400)
 def word_of_the_day():
-    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
+    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=6b7418187bd740d53c01975443c56826e52ec538526c7875f
     params = {
         'date': datetime.datetime.today().strftime('%Y-%m-%d'),
-        'api_key': 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
+        'api_key': '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
     }
     try:
         response = requests.get(
@@ -240,7 +240,7 @@ def word_of_the_day():
 
 @app.route('/zoom_meeting', methods=['GET'])
 def zoom_meeting():
-    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
+    # http://api.wordnik.com:80/v4/words.json/wordOfTheDay?date=2017-10-15&api_key=6b7418187bd740d53c01975443c56826e52ec538526c7875f
     headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzTzgwTGRWSFNYYXV3WUNVZG9UZlZBIiwiZXhwIjoxNTI2NzAzNzA3fQ.DHBUT7TLooibGKPq421-E4WKqUqb1YTf3iNnN1KoAkY'
@@ -257,3 +257,15 @@ def zoom_meeting():
             return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
     except Exception:
         return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
+
+
+@app.route('/message/<workflow>/<language>/', methods=['GET'])
+@cache.memoize(timeout=86400)
+def get_localize_mesasge(workflow,language):
+    messages = {"POST_RESOLUTION":{"english":"Sorry, I did not understand that.","hindi":"आपके धैर्य और सहयोग के लिए शुक्रिया।","arabic":"نشكرك على صبرك و دعمك."},"DEFAULT_FALLBACK":{"english":"Thank you for your patience and support.","hindi":"क्षमा करें, मुझे यह समझ में नहीं आया।","arabic":"اسف انا لم أفهم ذلك."}}
+    fallback = {"POST_RESOLUTION":"Thank you for your patience and support.","DEFAULT_FALLBACK":"Sorry, I did not understand that."}
+    if messages.get(workflow):
+        message = messages.get(workflow).get(language,fallback.get(workflow))
+    else:
+        message = "Something went wrong. Please try again or get in touch with the administrator" 
+    return json.dumps({"data": {"type": "text", "text": message}},ensure_ascii=False), 200
