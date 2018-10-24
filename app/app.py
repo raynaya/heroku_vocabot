@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
 WORDNIK_URL = 'http://api.wordnik.com:80/v4/'
 API_KEY = '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
-
+ALL_UPLOADED_FILE = set() 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 
@@ -276,8 +276,10 @@ def upload_file():
         if request.files and request.files.get("file"):
             file = request.files.get("file")
             if file.filename:
-                file.save(file.filename)
+                file_path = os.path.join("/tmp/",file.filename)
+                file.save(file_path)
                 resp = ("File uploded successfully",200)
+                ALL_UPLOADED_FILE.add(file_path)
             else:
                 resp = ("Invalid file format", 400)
         else:
@@ -293,7 +295,7 @@ def upload_file():
 def download_file(file_name):
     try:
         if file_name:
-            resp = send_file(file_name, as_attachment=True)
+            resp = send_file(os.path.join("/tmp/",file_name), as_attachment=True)
         else:
             resp = ("File not found",400)
     except Exception as e:
