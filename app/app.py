@@ -276,10 +276,7 @@ def upload_file():
         if request.files and request.files.get("file"):
             file = request.files.get("file")
             if file.filename:
-                filename = file.filename
-                file_path = os.path.join("/static/", file_name)
-                print(file_path)
-                file.save(file_path)
+                file.save(file.filename)
                 resp = ("File uploded successfully",200)
             else:
                 resp = ("Invalid file format", 400)
@@ -296,8 +293,7 @@ def upload_file():
 def download_file(file_name):
     try:
         if file_name:
-            file_path = os.path.join("/static/", file_name)
-            resp = send_file(file_path, as_attachment=True)
+            resp = send_file(file_name, as_attachment=True)
         else:
             resp = ("File not found",400)
     except Exception as e:
