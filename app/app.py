@@ -1,7 +1,7 @@
 import requests
-import json
+import json,os
 import datetime
-from flask import Flask
+from flask import Flask,send_file,request
 from flask.ext.cache import Cache
 from random import randint
 
@@ -269,3 +269,37 @@ def get_localize_mesasge(workflow,language):
     else:
         message = "Something went wrong. Please try again or get in touch with the administrator" 
     return json.dumps({"data": {"type": "text", "text": message}},ensure_ascii=False), 200
+
+@app.route('/upload-file/',methods=['PUT'])
+def upload_file():
+    try:
+        if request.files and request.files.get("file"):
+            file = request.files.get("file")
+            if file.filename:
+                filename = file.filename
+                file.save(os.path.join("./uploads/", filename))
+                resp = ("File uploded successfully",200)
+            else:
+                resp = ("Invalid file format", 400)
+        else:
+            resp = ("parameter file is missing", 400)
+    except Exception as e:
+        print(
+            "Unknown error while uploading-file request: {} , exception: {},".format(request.data, e), exc_info=True)
+        resp = ("Unknown error", 500)
+    finally:
+        return resp
+
+@app.route('/download-file/<file_name>/',methods=['GET'])
+def download_file(file_name):
+    try:
+        if file_name:
+            file_path = os.path.join("./uploads/", file_name)
+            resp = send_file(file_path, as_attachment=True)
+        else:
+            resp = ("File not found",400)
+    except Exception as e:
+        print("Unknown error while download-file file-name: {}, Exception: {}".format(file_name,e),exc_info=True)
+        resp = ("Unknown error",500)
+    finally:
+        return resp
