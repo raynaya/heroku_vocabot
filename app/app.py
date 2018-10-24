@@ -277,7 +277,7 @@ def upload_file():
             file = request.files.get("file")
             if file.filename:
                 filename = file.filename
-                file.save(os.path.join("./uploads/", filename))
+                file.save(os.path.join("./static/", filename))
                 resp = ("File uploded successfully",200)
             else:
                 resp = ("Invalid file format", 400)
@@ -285,7 +285,7 @@ def upload_file():
             resp = ("parameter file is missing", 400)
     except Exception as e:
         print(
-            "Unknown error while uploading-file request: {} , exception: {},".format(request.data, e), exc_info=True)
+            "Unknown error while uploading-file request: {} , exception: {},".format(request.data, e))
         resp = ("Unknown error", 500)
     finally:
         return resp
@@ -294,12 +294,12 @@ def upload_file():
 def download_file(file_name):
     try:
         if file_name:
-            file_path = os.path.join("./uploads/", file_name)
+            file_path = os.path.join("./static/", file_name)
             resp = send_file(file_path, as_attachment=True)
         else:
             resp = ("File not found",400)
     except Exception as e:
-        print("Unknown error while download-file file-name: {}, Exception: {}".format(file_name,e),exc_info=True)
+        print("Unknown error while download-file file-name: {}, Exception: {}".format(file_name,e))
         resp = ("Unknown error",500)
     finally:
         return resp
