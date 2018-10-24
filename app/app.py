@@ -4,6 +4,7 @@ import datetime
 from flask import Flask,send_file,request
 from flask.ext.cache import Cache
 from random import randint
+from collections import OrderedDict
 
 
 app = Flask(__name__)
@@ -19,7 +20,7 @@ if __name__ == "__main__":
 
 WORDNIK_URL = 'http://api.wordnik.com:80/v4/'
 API_KEY = '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
-ALL_UPLOADED_FILE = {}
+ALL_UPLOADED_FILE = OrderedDict()
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 
@@ -289,8 +290,8 @@ def upload_file():
             "Unknown error while uploading-file request: {} , exception: {},".format(request.data, e))
         resp = ("Unknown error", 500)
     finally:
-        if len(ALL_UPLOADED_FILE) > 10:
-            ALL_UPLOADED_FILE.clear()
+        if len(ALL_UPLOADED_FILE) >= 10:
+            ALL_UPLOADED_FILE.popitem(last=False)
         ALL_UPLOADED_FILE.update({file.filename:f})
         return resp
 
@@ -298,7 +299,8 @@ def upload_file():
 def download_file(file_name):
     try:
         if ALL_UPLOADED_FILE.get(file_name):
-            resp = send_file(ALL_UPLOADED_FILE.get(file_name), as_attachment=True)
+            file = ALL_UPLOADED_FILE.get(file_name)
+            resp = send_file(open(file.name), as_attachment=True)
         else:
             resp = ("File not found",400)
     except Exception as e:
