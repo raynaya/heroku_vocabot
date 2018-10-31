@@ -1,9 +1,10 @@
 import requests
-import json
+import json,os
 import datetime
-from flask import Flask
+from flask import Flask,send_file,request
 from flask.ext.cache import Cache
 from random import randint
+from collections import OrderedDict
 
 
 app = Flask(__name__)
@@ -19,7 +20,7 @@ if __name__ == "__main__":
 
 WORDNIK_URL = 'http://api.wordnik.com:80/v4/'
 API_KEY = '6b7418187bd740d53c01975443c56826e52ec538526c7875f'
-
+ALL_UPLOADED_FILE = OrderedDict()
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 
@@ -269,6 +270,44 @@ def get_localize_mesasge(workflow,language):
     else:
         message = "Something went wrong. Please try again or get in touch with the administrator" 
     return json.dumps({"data": {"type": "text", "text": message}},ensure_ascii=False), 200
+
+@app.route('/upload-file/',methods=['PUT'])
+def upload_file():
+    try:
+        if request.files and request.files.get("file"):
+            file = request.files.get("file")
+            if file.filename:
+                file_path = os.path.join("/tmp/",file.filename)
+                file.save(file_path)
+                f = open(file_path)
+                resp = ("File uploded successfully",200)
+            else:
+                resp = ("Invalid file format", 400)
+        else:
+            resp = ("parameter file is missing", 400)
+    except Exception as e:
+        print(
+            "Unknown error while uploading-file request: {} , exception: {},".format(request.data, e))
+        resp = ("Unknown error", 500)
+    finally:
+        if len(ALL_UPLOADED_FILE) >= 10:
+            ALL_UPLOADED_FILE.popitem(last=False)
+        ALL_UPLOADED_FILE.update({file.filename:f})
+        return resp
+
+@app.route('/download-file/<file_name>/',methods=['GET'])
+def download_file(file_name):
+    try:
+        if ALL_UPLOADED_FILE.get(file_name):
+            file = ALL_UPLOADED_FILE.get(file_name)
+            resp = send_file(open(file.name), as_attachment=True)
+        else:
+            resp = ("File not found",400)
+    except Exception as e:
+        print("Unknown error while download-file file-name: {}, Exception: {}".format(file_name,e))
+        resp = ("Unknown error",500)
+    finally:
+        return resp
 
 @app.route('/waslresolution/<language>/', methods=['GET'])
 @cache.memoize(timeout=86400)
