@@ -326,7 +326,15 @@ def get_resolution_mesasge(language):
 @cache.memoize(timeout=86400)
 def manipal_set_stream_and_redirect(stream):
     stream = request.args.get("stream", "Allied Health")
-    content = {"data": {"path_to_follow": "flow_C68721F3E3A340D997C5938EF757C663"} "attributes": [{name: "stream", value: stream}]}
+    content = {
+	"data": {
+		"path_to_follow": "flow_C68721F3E3A340D997C5938EF757C663"
+	},
+	"attributes": [{
+		"name": "stream",
+		"value": stream
+	}]
+     }
     return json.dumps(content, ensure_ascii=False), 200
 
 @app.route('/redirectStream/', methods=['GET'])
