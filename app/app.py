@@ -321,3 +321,19 @@ def get_resolution_mesasge(language):
     else:
         content = WASL_POST_RESOLUTION_JSON_ENGLISH
     return json.dumps(content, ensure_ascii=False), 200
+
+@app.route('/setStream/', methods=['GET'])
+@cache.memoize(timeout=86400)
+def manipal_set_stream_and_redirect(stream):
+    stream = request.args.get("stream", "Allied Health")
+    content = {"data": {"path_to_follow": "flow_C68721F3E3A340D997C5938EF757C663"} "attributes": [{name: "stream", value: stream}]}
+    return json.dumps(content, ensure_ascii=False), 200
+
+@app.route('/redirectStream/', methods=['GET'])
+@cache.memoize(timeout=86400)
+def manipal_set_stream_and_redirect(stream):
+    stream = request.args.get("stream", "Allied Health")
+    stream_path_keys = {"Allied Health" : "EECDC320EE784CBFAC6E2DE603418194", "Architecture & Design" : "C98B744C49834D7FB3D57259CF73CFAE", "Arts & Humanities" : "2274C896F1BC463BA30A08B3946A120F", "Atomic & Molecular Physics" : "AA8675FC5FEB498C80BD24E501330ED1", "Basic & Advance Sciences" : "7BA370617BD24A9A8485707689490855", "Computer Applications" : "EF4C66C6CF7A499E8BD9AF223B58B4D4", "Dentistry" : "3ED9BA3BDDBD470399DB06CDAF9F4DEF", "Engineering" : "A73D1D8B050E445382D14E1033B5D161", "European Studies" : "A15F3F130B9041C39978FF28F97A9D3E", "European Studies & Foreign Languages" : "6A1B924E667A42AB8A3F03339B4A0567", "Geopolitics" : "A991671F34394D938583C1198B1B4FB9", "Hospitality" : "65BA0D7CA7DF4F0699886ABCBB03A6AF", "Hotel Management & Culinary Arts" : "ED1834B167734242BB717C447EABE979", "Information Science" : "880FC319E86D46388724DCC770AC9D7A", "Library Science" : "1B45B250D7F04EEC8F7C8F4BBBF64E29", "Life sciences" : "313B0336995B451FB679FC0F13DF3D84", "Management" : "413DB7DAFDA44513B008EABA7327177A", "Media & Communication" : "6CC68AA1AF164A16B1B2D89F91A6D953", "Medicine" : "9ECC6D0A248A476EB9CC481A895BD85B", "Nursing" : "99BA6B72B0534AE8B4E49BD0B2FDBB9B", "Pharmacy" : "7799EC8378F44FEE8C2E89E8AB3DA9A7", "Public Health" : "840D0C5E3CA742D6A435AFC68CFBC1E1", "Statistics" : "2512DA01F4D4770AAD1C16A0F1AFFF8"}
+    flow_key = stream_path_keys.get(stream)    
+    content = {"data": {"path_to_follow": "flow_" + flow_key}}
+    return json.dumps(content, ensure_ascii=False), 200
