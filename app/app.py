@@ -343,3 +343,8 @@ def manipal_redirect():
     flow_key = stream_path_keys.get(stream)    
     content = {"data": {"path_to_follow": flow_key}}
     return json.dumps(content, ensure_ascii=False), 200
+
+@app.route('/clearContext/', methods=['GET'])
+def manipal_clear_context():
+    content = {"attributes": [{"name": "context_val", "value": "dummy_context_for_clearing_context"}]}
+    return json.dumps(content, ensure_ascii=False), 200
