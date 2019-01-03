@@ -346,5 +346,5 @@ def manipal_redirect():
 
 @app.route('/clearContext/', methods=['GET'])
 def manipal_clear_context():
-    content = {"attributes": [{"name": "context_val", "value": "dummy_context_for_clearing_context"}]}
+    content = {"data": {}, "attributes": [{"name": "context_val", "value": "dummy_context_for_clearing_context"}]}
     return json.dumps(content, ensure_ascii=False), 200
