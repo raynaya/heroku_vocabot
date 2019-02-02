@@ -348,3 +348,9 @@ def manipal_redirect():
 def manipal_clear_context():
     content = {"data": {}, "attributes": [{"name": "context_val", "value": "abcdef"}]}
     return json.dumps(content, ensure_ascii=False), 200
+
+@app.route('/triggerDynamicFlow/', methods=['GET'])
+def trigger_dynamic_flow():
+    flow_key = request.args.get("flow_key", "")
+    content = {"data": {"path_to_follow": flow_key}}
+    return json.dumps(content, ensure_ascii=False), 200
