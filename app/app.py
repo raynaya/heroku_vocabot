@@ -354,3 +354,8 @@ def trigger_dynamic_flow():
     flow_key = request.args.get("flow_key", "")
     content = {"data": {"path_to_follow": flow_key}}
     return json.dumps(content, ensure_ascii=False), 200
+
+@app.route('/cricInitializeUser/', methods=['GET'])
+def crickbot_initialize_user():
+    content = {"data": {}, "attributes": [{"name": "user_registered", "value": "1"}, {"name": "pref_follow", "value": "over"}, {"name": "pref_others", "value": "innings"}]}
+    return json.dumps(content, ensure_ascii=False), 200
