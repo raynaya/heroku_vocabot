@@ -359,3 +359,35 @@ def trigger_dynamic_flow():
 def crickbot_initialize_user():
     content = {"data": {}, "attributes": [{"name": "registered", "value": "1"}, {"name": "prediction_setup", "value": "1"}, {"name": "pref_follow", "value": "over"}, {"name": "pref_others", "value": "innings"}]}
     return json.dumps(content, ensure_ascii=False), 200
+
+@app.route('/crickbot_groups', methods=['GET'])
+def crickbot_groups():
+    headers = {
+        'Content-Type': 'application/json',
+        'X-CrikBot-Security-key': '+JCie80eO02u7sU00OjqAg=='
+    }
+    user_id = request.args.get("user_id", "")
+    if user_id == None:
+        return json.dumps({"data": {"type": "text", "text": "User id is not set correctly"}}), 200
+    try:
+        response = requests.get('http://dev-crickbot-1367003571.ap-south-1.elb.amazonaws.com:8080/v1/group/listOfTeams?userId=', headers=headers)
+
+        if response.status_code == 200:
+            response = response.json()
+            responseObject = response['responseObject']
+            data = {}
+            data['type'] = 'msg_options'
+            data['text'] = 'These are the groups you are a part of. Select one to see the leaderboard'
+
+            options = []
+            for group in responseObject:
+                 option = {}
+                 option['text'] = group['groupName']
+                 option['postback'] = 'flow_C50560D5E5F94F8EA5B65A6742A25AAB||data_leaderboard_group_id=' + group['groupId']
+                 options.append(option)
+            data['options'] = options
+            return json.dumps()
+        else:
+            return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
+    except Exception:
+        return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
