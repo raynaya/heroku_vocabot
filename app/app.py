@@ -357,5 +357,5 @@ def trigger_dynamic_flow():
 
 @app.route('/cricInitializeUser/', methods=['GET'])
 def crickbot_initialize_user():
-    content = {"data": {}, "attributes": [{"name": "registered", "value": "1"}, {"name": "pref_follow", "value": "over"}, {"name": "pref_others", "value": "innings"}]}
+    content = {"data": {}, "attributes": [{"name": "registered", "value": "1"}, {"name": "prediction_setup", "value": "1"}, {"name": "pref_follow", "value": "over"}, {"name": "pref_others", "value": "innings"}]}
     return json.dumps(content, ensure_ascii=False), 200
