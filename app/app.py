@@ -388,8 +388,8 @@ def crickbot_groups():
             for group in responseObject:
                 option = {}
                 print(group)
-                option['text'] = group['groupName']
-                option['postback'] = 'flow_C50560D5E5F94F8EA5B65A6742A25AAB||data_leaderboard_group_id=' + group['groupId']
+                option['text'] = group['groupNames']
+                option['postback'] = 'flow_C50560D5E5F94F8EA5B65A6742A25AAB||data_leaderboard_group_id=' + group['groupIds']
                 options.append(option)
             data['options'] = options
             return json.dumps(data)
