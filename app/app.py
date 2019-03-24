@@ -392,7 +392,7 @@ def crickbot_groups():
                 option['postback'] = 'flow_C50560D5E5F94F8EA5B65A6742A25AAB||data_leaderboard_group_id=' + group['groupIds']
                 options.append(option)
             data['options'] = options
-            return json.dumps(data)
+            return json.dumps({'data': data})
         else:
             return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
     except Exception:
