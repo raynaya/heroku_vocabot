@@ -375,8 +375,8 @@ def crickbot_groups():
         if response.status_code == 200:
             response = response.json()
             responseObject = response['responseObject']
-	
-	    print(responseObject)
+
+            print(responseObject)
             if len(responseObject) == 0:
             	return json.dumps({"data": {"type": "text", "text": "Uh oh! you aren't part of any groups :("}}), 200
 
@@ -385,13 +385,13 @@ def crickbot_groups():
             data['text'] = 'These are the groups you are a part of. Select one to see the leaderboard'
 
             options = []
-	    print('------1')
+            print('------1')
             for group in responseObject:
-		 print(group)
-                 option = {}
-                 option['text'] = group['groupName']
-                 option['postback'] = 'flow_C50560D5E5F94F8EA5B65A6742A25AAB||data_leaderboard_group_id=' + group['groupId']
-                 options.append(option)
+            	print(group)
+                option = {}
+                option['text'] = group['groupName']
+                option['postback'] = 'flow_C50560D5E5F94F8EA5B65A6742A25AAB||data_leaderboard_group_id=' + group['groupId']
+                options.append(option)
             data['options'] = options
             return json.dumps(data)
         else:
