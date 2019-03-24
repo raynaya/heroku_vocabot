@@ -427,34 +427,3 @@ def crickbot_prediction():
             return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
     except Exception:
         return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
-
-@app.route('/cricbot_unfollow_teams', methods=['GET'])
-def cricbot_unfollow_teams():
-    headers = {
-        'Content-Type': 'application/json',
-        'X-CrikBot-Security-key': '+JCie80eO02u7sU00OjqAg=='
-    }
-    follow_params = request.args.get("follow_params", "")
-    if follow_params == None:
-        return json.dumps({"data": {"type": "text", "text": "Invalid data"}}), 200
-    try:
-    		teams_arr = follow_params.split('||')
-            data = {}
-            data['type'] = 'msg_options'
-            data['text'] = responseObject['questionText']
-
-            options = []
-            for team in teams_arr:
-            	team_comp = team.split(':')
-            	if team_comp[1] != '1':
-            		continue;
-                option = {}
-                option['text'] = team_comp[0]
-                option['postback'] = '||data_follow_' + team_comp[0].lower()  + '=0'
-                options.append(option)
-            data['options'] = options
-            return json.dumps({'data': data})
-        else:
-            return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
-    except Exception:
-        return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
