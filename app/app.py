@@ -438,7 +438,7 @@ def cricbot_unfollow_teams():
     if follow_params == None:
         return json.dumps({"data": {"type": "text", "text": "Invalid data"}}), 200
     try:
-    		teams_arr = follow_params.split('||')
+            teams_arr = follow_params.split('||')
             data = {}
             data['type'] = 'msg_options'
             data['text'] = responseObject['questionText']
