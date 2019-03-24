@@ -419,7 +419,7 @@ def crickbot_prediction():
             for opt in predictionOptions:
                 option = {}
                 option['text'] = opt['optionValue']
-                option['postback'] = 'flow_660CCD6E62D54E9E805797416C399076||data_pred_resp_opt=' + opt['optionKey'] + '&pred_resp_qn=' + questionId
+                option['postback'] = 'flow_660CCD6E62D54E9E805797416C399076||data_pred_resp_opt=' + opt['optionKey']
                 options.append(option)
             data['options'] = options
             return json.dumps({'data': data})
