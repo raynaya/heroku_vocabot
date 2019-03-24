@@ -368,13 +368,17 @@ def crickbot_groups():
     }
     user_id = request.args.get("user_id", "")
     if user_id == None:
-        return json.dumps({"data": {"type": "text", "text": "User id is not set correctly"}}), 200
+        return json.dumps({"data": {"type": "text", "text": "User not found"}}), 200
     try:
-        response = requests.get('http://dev-crickbot-1367003571.ap-south-1.elb.amazonaws.com:8080/v1/group/listOfTeams?userId=', headers=headers)
+        response = requests.get('http://dev-crickbot-1367003571.ap-south-1.elb.amazonaws.com:8080/v1/user/listOfGroups?userId=', headers=headers)
 
         if response.status_code == 200:
             response = response.json()
             responseObject = response['responseObject']
+
+            if len(responseObject) == 0:
+            	return json.dumps({"data": {"type": "text", "text": "Uh oh! you aren't part of any groups :("}}), 200
+
             data = {}
             data['type'] = 'msg_options'
             data['text'] = 'These are the groups you are a part of. Select one to see the leaderboard'
