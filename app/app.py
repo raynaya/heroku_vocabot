@@ -394,3 +394,36 @@ def crickbot_groups():
             return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
     except Exception:
         return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
+
+@app.route('/crickbot_prediction', methods=['GET'])
+def crickbot_prediction():
+    headers = {
+        'Content-Type': 'application/json',
+        'X-CrikBot-Security-key': '+JCie80eO02u7sU00OjqAg=='
+    }
+    questionId = request.args.get("questionId", "")
+    if questionId == None:
+        return json.dumps({"data": {"type": "text", "text": "Invalid question"}}), 200
+    try:
+        response = requests.get('http://dev-crickbot-1367003571.ap-south-1.elb.amazonaws.com:8080/v1/prediction/getPredictionQuestion?questionId=' + questionId, headers=headers)
+        if response.status_code == 200:
+            response = response.json()
+            responseObject = response['responseObject']
+
+            data = {}
+            data['type'] = 'msg_options'
+            data['text'] = responseObject['questionText']
+
+            options = []
+            predictionOptions = responseObject['predictionOptions']
+            for opt in responseObject:
+                option = {}
+                option['text'] = opt['optionValue']
+                option['postback'] = 'flow_660CCD6E62D54E9E805797416C399076||data_pred_resp_opt=' + opt['optionKey'] + '&pred_resp_qn=' + questionId
+                options.append(option)
+            data['options'] = options
+            return json.dumps({'data': data})
+        else:
+            return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
+    except Exception:
+        return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
