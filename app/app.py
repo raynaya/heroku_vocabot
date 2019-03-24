@@ -371,11 +371,11 @@ def crickbot_groups():
         return json.dumps({"data": {"type": "text", "text": "User not found"}}), 200
     try:
         response = requests.get('http://dev-crickbot-1367003571.ap-south-1.elb.amazonaws.com:8080/v1/user/listOfGroups?userId=', headers=headers)
-
+        print(response.text)
         if response.status_code == 200:
             response = response.json()
             responseObject = response['responseObject']
-
+            print(responseObject)
             if len(responseObject) == 0:
             	return json.dumps({"data": {"type": "text", "text": "Uh oh! you aren't part of any groups :("}}), 200
 
@@ -383,9 +383,11 @@ def crickbot_groups():
             data['type'] = 'msg_options'
             data['text'] = 'These are the groups you are a part of. Select one to see the leaderboard'
 
+            print('------')
             options = []
             for group in responseObject:
                 option = {}
+                print(group)
                 option['text'] = group['groupName']
                 option['postback'] = 'flow_C50560D5E5F94F8EA5B65A6742A25AAB||data_leaderboard_group_id=' + group['groupId']
                 options.append(option)
