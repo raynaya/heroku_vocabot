@@ -370,7 +370,7 @@ def crickbot_groups():
     if user_id == None:
         return json.dumps({"data": {"type": "text", "text": "User not found"}}), 200
     try:
-        response = requests.get('http://dev-crickbot-1367003571.ap-south-1.elb.amazonaws.com:8080/v1/user/listOfGroups?userId=' + user_id, headers=headers)
+        response = requests.get('http://dev-new-1424632230.ap-south-1.elb.amazonaws.com:8080/v1/user/listOfGroups?userId=' + user_id, headers=headers)
         if response.status_code == 200:
             response = response.json()
             responseObject = response['responseObject']
@@ -405,7 +405,7 @@ def crickbot_prediction():
     if questionId == None:
         return json.dumps({"data": {"type": "text", "text": "Invalid question"}}), 200
     try:
-        response = requests.get('http://dev-crickbot-1367003571.ap-south-1.elb.amazonaws.com:8080/v1/prediction/getPredictionQuestion?questionId=' + questionId, headers=headers)
+        response = requests.get('http://dev-new-1424632230.ap-south-1.elb.amazonaws.com:8080/v1/prediction/getPredictionQuestion?questionId=' + questionId, headers=headers)
         if response.status_code == 200:
             response = response.json()
             responseObject = response['responseObject']
