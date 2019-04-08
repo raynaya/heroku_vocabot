@@ -427,3 +427,17 @@ def crickbot_prediction():
             return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
     except Exception:
         return json.dumps({"data": {"type": "text", "text": "Please try again later!"}}), 500
+
+@app.route('/clearStoreEntity/', methods=['GET'])
+def nouf_clear_store():
+
+    entity_value = request.args.get("entity_value", "")    
+    original_entity_value = request.args.get("original_entity_value", "")
+    query_string = request.args.get("query_string", "")
+
+    content = {}
+    if original_entity_value != "" and original_entity_value in query_string:
+        content = {"data": {}, "attributes": [{"name": "resolved_store", "value": entity_value}]}
+    else:
+        content = {"data": {}, "attributes": [{"name": "resolved_store", "value": ""}]}
+    return json.dumps(content, ensure_ascii=False), 200
