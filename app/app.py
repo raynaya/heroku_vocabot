@@ -434,10 +434,11 @@ def nouf_clear_store():
     entity_value = request.args.get("entity_value", "")    
     original_entity_value = request.args.get("original_entity_value", "")
     query_string = request.args.get("query_string", "")
-    print('ev - ' + entity_value +  'oev - ' + original_entity_value + ' qs - ' + query_string)
+    print('ev - ' + entity_value +  ' oev - ' + original_entity_value + ' qs - ' + query_string)
     content = {}
-    if original_entity_value != "" and original_entity_value.lower() in query_string.lower():
+    if original_entity_value != "" and original_entity_value.lower() in query_string:
         content = {"data": {}, "attributes": [{"name": "resolved_store", "value": entity_value}]}
     else:
         content = {"data": {}, "attributes": [{"name": "resolved_store", "value": ""}]}
+    print(JSON - json.dumps(content, ensure_ascii=False))	
     return json.dumps(content, ensure_ascii=False), 200
