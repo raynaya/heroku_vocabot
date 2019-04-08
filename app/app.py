@@ -440,5 +440,5 @@ def nouf_clear_store():
         content = {"data": {}, "attributes": [{"name": "resolved_store", "value": entity_value}]}
     else:
         content = {"data": {}, "attributes": [{"name": "resolved_store", "value": ""}]}
-    print(JSON - json.dumps(content, ensure_ascii=False))	
+    print('JSON -' + json.dumps(content, ensure_ascii=False))	
     return json.dumps(content, ensure_ascii=False), 200
