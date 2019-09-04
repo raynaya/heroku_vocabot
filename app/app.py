@@ -14,13 +14,13 @@ app = Flask(__name__)
 def index():
     return "Yo, it's working!"
 
-@app.route('/answer')
+@app.route('/answer',  methods=['POST'])
 def answer():
     print(request.args)
     print(request.json)
     return
 
-@app.route('/events')
+@app.route('/events',  methods=['POST'])
 def events():
     print(request.args)
     print(request.json)
