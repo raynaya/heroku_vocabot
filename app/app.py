@@ -14,6 +14,18 @@ app = Flask(__name__)
 def index():
     return "Yo, it's working!"
 
+@app.route('/answer')
+def answer():
+    print(request.args)
+    print(request.json)
+    return
+
+@app.route('/events')
+def events():
+    print(request.args)
+    print(request.json)
+    return
+
 
 if __name__ == "__main__":
     app.run()
